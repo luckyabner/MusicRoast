@@ -8,7 +8,9 @@ import axios from 'axios';
  */
 export async function fetchSongsList(platform: string, id: string) {
 	try {
-		const res = await axios.get(`/api/music/songlist?server=${platform}&id=${id}`);
+		const res = await axios.get(
+			`${process.env.NEXT_PUBLIC_MUSIC_API_URL}/music/songlist?server=${platform}&id=${id}`
+		);
 		return res.data;
 	} catch (e) {
 		console.log(e);

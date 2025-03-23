@@ -1,8 +1,0 @@
-{
-	"rewrites": [
-		{
-			"source": "/api/:path*",
-			"destination": "${NEXT_PUBLIC_MUSIC_API_URL}/:path*"
-		}
-	]
-}
