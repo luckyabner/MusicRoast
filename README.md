@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI 歌单锐评
 
-## Getting Started
+## 体验地址
 
-First, run the development server:
+[MusicRoast](https://roast.luckyabner.top)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 简介
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+输入歌单 id，AI 自动对歌单进行评价，给出评价结果。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 模型使用
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+DeepSeek V3
 
-## Learn More
+## 支持平台
 
-To learn more about Next.js, take a look at the following resources:
+- QQ 音乐
+- 网易云
+- 酷狗
+- 酷我
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 部署
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. 安装依赖
+2. 修改 .env.examble 中的配置
+3. `pnpm dev` 启动测试服务
+4. `pnpm build` 打包
+5. `pnpm start` 启动服务
 
-## Deploy on Vercel
+## TODO
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [] 生成分享卡片
+- [] 支持自定义模型
+- [] 支持自定义 prompt
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 相关链接
+
+- 歌单获取 - [musicapi](https://github.com/Superheroff/musicapi.git)
+- 网站图标 - [logocook](https://www.logocook.shop/)
+
+## LICENSE
+
+MIT
