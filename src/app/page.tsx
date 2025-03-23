@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { PROMPTS } from '@/lib/prompts';
 import { MusicIcon } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { MODELS } from '@/lib/models';
 
 const formatSongsForAI = (songs: { title: string; author: string }[]) => {
 	return songs
@@ -49,7 +50,7 @@ export default function Home() {
 
 			// 使用流式API
 			await createChatCompletion(
-				'ep-20250305151033-dfq7q',
+				MODELS['deepseek-v3'],
 				[
 					{
 						role: 'user',
