@@ -7,6 +7,7 @@
 ## 简介
 
 输入歌单 id，AI 自动对歌单进行评价，给出评价结果。
+![alt text](image.png)
 
 ## 模型使用
 
@@ -40,4 +41,4 @@ DeepSeek V3
 
 ## LICENSE
 
-MIT
+This project is licensed under the [MIT License](LICENSE).
