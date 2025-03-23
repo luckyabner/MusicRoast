@@ -2,7 +2,7 @@
 
 ## 体验地址
 
-[MusicRoast](https://roast.luckyabner.top)
+[MusicRoast](https://music.luckyabner.top)
 
 ## 简介
 
