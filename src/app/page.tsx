@@ -40,14 +40,6 @@ export default function Home() {
 			const songsList = await fetchSongsList(platform, id);
 			const formattedSongs = formatSongsForAI(songsList);
 
-			// const aiResult = await createChatCompletion('ep-20250305151033-dfq7q', [
-			// 	{
-			// 		role: 'user',
-			// 		content: `${PROMPTS[attitude]} ${formattedSongs}`,
-			// 	},
-			// ]);
-			// setResult(aiResult.choices[0].message.content);
-
 			// 使用流式API
 			await createChatCompletion(
 				MODELS['deepseek-v3'],

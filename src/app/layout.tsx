@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 export const metadata: Metadata = {
 	title: 'MusicRoast-乐怼',
@@ -12,7 +13,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="zh-CN">
+			<head>
+				<GoogleAnalytics />
+			</head>
 			<body className={`font-mono antialiased bg-background`}>{children}</body>
 		</html>
 	);
