@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 /**
  * 获取歌单
  * @param platform wyy, qqmusic, kugou, kuwo
@@ -8,11 +6,15 @@ import axios from 'axios';
  */
 export async function fetchSongsList(platform: string, id: string) {
 	try {
-		const res = await axios.get(
-			`${process.env.NEXT_PUBLIC_MUSIC_API_URL}/music/songlist?server=${platform}&id=${id}`
-		);
-		return res.data;
-	} catch (e) {
-		console.log(e);
+		const res = await fetch(`/api/songslist/${platform}/${id}`);
+
+		if (!res.ok) {
+			const errorData = await res.json().catch(() => null);
+			throw new Error(errorData?.error || `获取歌单失败 (${res.status})`);
+		}
+		return res.json();
+	} catch (error) {
+		console.error('获取歌单失败:', error);
+		throw error;
 	}
 }

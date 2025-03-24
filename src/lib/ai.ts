@@ -41,16 +41,6 @@ export async function createChatCompletion(
 	options: { temperature?: number; max_tokens?: number } = {},
 	onChunk: (chunk: string) => void
 ): Promise<void> {
-	const apiKey = process.env.NEXT_PUBLIC_V3_VOLCE_API_KEY;
-	const apiUrl = process.env.NEXT_PUBLIC_V3_VOLCE_API_URL;
-	if (!apiUrl) {
-		throw new Error('Missing V3_VOLCE_API_URL environment variable');
-	}
-
-	if (!apiKey) {
-		throw new Error('Missing V3_VOLCE_API_KEY environment variable');
-	}
-
 	const requestBody: ChatCompletionRequest = {
 		model,
 		messages,
@@ -59,19 +49,24 @@ export async function createChatCompletion(
 	};
 
 	try {
-		const response = await fetch(apiUrl, {
+		const response = await fetch('/api/chat', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${apiKey}`,
 			},
 			body: JSON.stringify(requestBody),
 		});
 
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${await response.text()}`
-			);
+			const errorText = await response.text();
+			let errorMessage;
+			try {
+				const errorJson = JSON.parse(errorText);
+				errorMessage = errorJson.error || errorText;
+			} catch {
+				errorMessage = errorText;
+			}
+			throw new Error(`API request failed: ${errorMessage}`);
 		}
 
 		if (!response.body) {
