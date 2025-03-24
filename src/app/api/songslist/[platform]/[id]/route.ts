@@ -1,15 +1,17 @@
 import axios from 'axios';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
-	request: Request,
-	{ params }: { params: { platform: string; id: string } }
+	_request: NextRequest,
+	{ params }: { params: Promise<{ platform: string; id: string }> }
 ) {
 	try {
-		const { platform, id } = params;
+		const { platform, id } = await params;
 
 		// 检查环境变量是否存在
 		const apiUrl = process.env.MUSIC_API_URL;
+		// console.log(`Using API URL: ${apiUrl}, platform: ${platform}, id: ${id}`);
+
 		if (!apiUrl) {
 			return NextResponse.json(
 				{ error: 'Missing MUSIC_API_URL environment variable' },

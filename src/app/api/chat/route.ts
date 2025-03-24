@@ -1,7 +1,7 @@
 import { ChatCompletionRequest } from '@/lib/ai';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
 	try {
 		const { model, messages, temperature, max_tokens } = await request.json();
 
