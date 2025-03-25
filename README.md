@@ -28,14 +28,6 @@ DeepSeek V3
 4. `pnpm build` 打包
 5. `pnpm start` 启动服务
 
-## TODO
-
-- [ ] 生成分享卡片
-- [ ] 支持自定义模型
-- [ ] 支持自定义 prompt
-- [ ] SEO
-- [ ] 优化重构
-
 ## 相关链接
 
 - 歌单获取 - [musicapi](https://github.com/Superheroff/musicapi.git)

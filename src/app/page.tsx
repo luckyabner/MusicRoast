@@ -32,6 +32,7 @@ export default function Home() {
 			const platform = formData.get('platform') as string | null;
 			const id = formData.get('id') as string | null;
 			const attitude = (formData.get('attitude') as keyof typeof PROMPTS) || 'sharp';
+			localStorage.setItem('aiStyle', attitude);
 
 			if (!platform || !id) {
 				throw new Error('请提供平台和歌单ID');
