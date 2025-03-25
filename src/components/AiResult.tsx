@@ -5,24 +5,21 @@ import ReactMarkdown from 'react-markdown';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
 import { Copy, Share2 } from 'lucide-react';
-// import ShareButton from './ShareButton';
+import { useRouter } from 'next/navigation';
 
 interface AiResultProps {
 	result: string;
 	isLoading?: boolean;
 	error?: string;
 }
+
 export default function AiResult({ result, isLoading = false, error = '' }: AiResultProps) {
 	const scrollAreaRef = useRef<HTMLDivElement>(null);
+	const router = useRouter();
 
 	const handleCopy = () => {
 		navigator.clipboard.writeText(result);
 		alert('已复制到剪贴板');
-	};
-
-	const handleShare = () => {
-		// 实现分享功能的占位
-		alert('即将上线，敬请期待');
 	};
 
 	// 当结果更新时自动滚动到底部
@@ -37,6 +34,10 @@ export default function AiResult({ result, isLoading = false, error = '' }: AiRe
 		}
 	}, [result]);
 
+	const handleShare = () => {
+		localStorage.setItem('music-roast-share', result);
+		router.push(`/share`);
+	};
 	if (error) {
 		return <div>出错了</div>;
 	}
@@ -70,6 +71,7 @@ export default function AiResult({ result, isLoading = false, error = '' }: AiRe
 						variant="outline"
 						className="flex-1"
 						onClick={handleCopy}
+						disabled={isLoading}
 					>
 						<Copy className="h-4 w-4 mr-2" />
 						复制结果
@@ -78,6 +80,7 @@ export default function AiResult({ result, isLoading = false, error = '' }: AiRe
 						variant="outline"
 						className="flex-1"
 						onClick={handleShare}
+						disabled={isLoading}
 					>
 						<Share2 className="h-4 w-4 mr-2" />
 						分享卡片
