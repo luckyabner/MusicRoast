@@ -2,15 +2,16 @@ import React from 'react';
 import '../app/card.css';
 
 interface CardProps {
-	username: string;
+	// username: string;
 	review: string;
+	style: string;
 }
 
-export default function ShareCard1({ username, review }: CardProps) {
+export default function ShareCard1({ review, style }: CardProps) {
 	return (
 		<div
 			id="share-card"
-			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-auto"
+			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-4"
 			style={{ backgroundColor: '#292524' }}
 		>
 			{/* <!-- 网站标识 --> */}
@@ -28,22 +29,34 @@ export default function ShareCard1({ username, review }: CardProps) {
 			</div>
 
 			{/* <!-- 用户信息 --> */}
-			<div className="mb-6">
+			{/* <div className="mb-6">
 				<div
 					className="text-xl font-semibold"
 					style={{ color: '#fecdd3' }}
 				>
 					@{username}
 				</div>
+			</div> */}
+
+			{/* <!-- 态度标签 --> */}
+			<div className="mb-4">
+				<div
+					className="rounded-full ml-2 font-semibold whitespace-nowrap"
+					style={{ color: '#fda4af' }}
+				>
+					Style: {style}
+				</div>
 			</div>
 
 			{/* <!-- 评论文本 --> */}
 			<div
-				className="rounded-xl p-6 mb-8"
-				style={{ backgroundColor: '#44403c' }}
+				className="rounded-xl p-6 mb-4"
+				style={{
+					backgroundColor: '#44403c',
+				}}
 			>
 				<p
-					className="text-lg leading-relaxed whitespace-pre-line"
+					className="text-lg pb-6 leading-relaxed whitespace-pre-line"
 					style={{ color: '#f5f5f4' }}
 				>
 					{review}
@@ -52,7 +65,7 @@ export default function ShareCard1({ username, review }: CardProps) {
 
 			{/* <!-- 网站水印 --> */}
 			<div
-				className="mt-8 pt-4"
+				className=" pt-4"
 				style={{ borderTop: '1px solid #57534e' }}
 			>
 				<div

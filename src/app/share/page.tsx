@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import React, { useEffect, useRef, useState } from 'react';
 import domtoimage from 'dom-to-image-more';
 
-const mockData = {
-	username: 'Abner',
+const defaultData = {
+	aiStyle: '舔狗',
 	review:
 		'这个歌单简直是咖啡因过量的听觉体现！从Taylor Swift到周杰伦的混搭，像极了我的Spotify年度总结。建议改名为《凌晨三点的音乐精神分裂》，至少三首歌适合在便利店凌晨补货时听。这个歌单简直是咖啡因过量的听觉体现！从Taylor Swift到周杰伦的混搭，像极了我的Spotify年度总结。建议改名为《凌晨三点的音乐精神分裂》，至少三首歌适合在便利店凌晨补货时听。这个歌单简直是咖啡因过量的听觉体现！从Taylor Swift到周杰伦的混搭，像极了我的Spotify年度总结。建议改名为《凌晨三点的音乐精神分裂》，至少三首歌适合在便利店凌晨补货时听。这个歌单简直是咖啡因过量的听觉体现！从Taylor Swift到周杰伦的混搭，像极了我的Spotify年度总结。建议改名为《凌晨三点的音乐精神分裂》，至少三首歌适合在便利店凌晨补货时听。这个歌单简直是咖啡因过量的听觉体现！从Taylor Swift到周杰伦的混搭，像极了我的Spotify年度总结。建议改名为《凌晨三点的音乐精神分裂》，至少三首歌适合在便利店凌晨补货时听。',
 };
@@ -14,16 +14,23 @@ export default function SharePage() {
 	const cardRef = useRef<HTMLDivElement>(null);
 	const [isGenerating, setIsGenerating] = useState(false);
 	const [result, setResult] = useState('');
+	const [aiStyle, setAiStyle] = useState('');
 
 	useEffect(() => {
 		// 尝试从localStorage获取
 		const savedResult = localStorage.getItem('music-roast-share');
+		const aiStyle = localStorage.getItem('aiStyle');
+		if (aiStyle) {
+			setAiStyle(aiStyle);
+		} else {
+			setAiStyle(defaultData.aiStyle);
+		}
 		if (savedResult) {
 			setResult(savedResult);
 			// 可选：读取后清除
 			// localStorage.removeItem('music-roast-share');
 		} else {
-			setResult('未找到分享内容');
+			setResult('数据已过期，请重新生成');
 		}
 	}, []);
 
@@ -35,27 +42,34 @@ export default function SharePage() {
 			// 创建一个新的容器来精确控制导出区域
 			const node = cardRef.current;
 
-			// 计算实际宽度而不是页面宽度
-			const width = node.clientWidth;
-			const height = node.clientHeight;
+			// 记录原始宽度
+			const originalWidth = node.style.width;
+			const originalMaxWidth = node.style.maxWidth;
+
+			// 直接设置样式属性
+			node.style.width = '670px';
+			node.style.maxWidth = 'none';
 
 			const dataUrl = await domtoimage.toPng(node, {
 				quality: 1,
 				bgcolor: 'transparent',
-				width: Math.ceil(width), // 向上取整避免亚像素
-				height: Math.ceil(height), // 限制为实际卡片宽度
 				style: {
 					// transform: `scale(${window.devicePixelRatio})`, // 匹配设备像素比
-					transformOrigin: 'top left',
+					// transformOrigin: 'top left',
 				},
-				cacheBust: true, // 强制刷新样式
+				// cacheBust: true, // 强制刷新样式
 			});
+
+			// 恢复原始样式
+			node.style.width = originalWidth;
+			node.style.maxWidth = originalMaxWidth;
 
 			const link = document.createElement('a');
 			link.download = `MusicRoast_${Date.now()}.png`;
 			link.href = dataUrl;
 			link.click();
 			localStorage.removeItem('music-roast-share');
+			localStorage.removeItem('aiStyle');
 		} catch (error) {
 			console.error('生成失败:', error);
 		} finally {
@@ -63,7 +77,7 @@ export default function SharePage() {
 		}
 	};
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center min-h-screen justify-center">
 			{/* 添加额外的包装器并应用精确样式控制 */}
 			<div
 				ref={cardRef}
@@ -78,7 +92,7 @@ export default function SharePage() {
 				}}
 			>
 				<ShareCard1
-					username={mockData.username}
+					style={aiStyle}
 					review={result}
 				/>
 			</div>
