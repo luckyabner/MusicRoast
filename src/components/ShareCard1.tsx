@@ -51,10 +51,12 @@ export default function ShareCard1({ review, style }: CardProps) {
 			{/* <!-- 评论文本 --> */}
 			<div
 				className="rounded-xl p-6 mb-4"
-				style={{ backgroundColor: '#44403c' }}
+				style={{
+					backgroundColor: '#44403c',
+				}}
 			>
 				<p
-					className="text-lg leading-relaxed whitespace-pre-line"
+					className="text-lg pb-6 leading-relaxed whitespace-pre-line"
 					style={{ color: '#f5f5f4' }}
 				>
 					{review}

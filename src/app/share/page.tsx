@@ -30,7 +30,7 @@ export default function SharePage() {
 			// 可选：读取后清除
 			// localStorage.removeItem('music-roast-share');
 		} else {
-			setResult(defaultData.review);
+			setResult('数据已过期，请重新生成');
 		}
 	}, []);
 
