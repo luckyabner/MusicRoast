@@ -39,6 +39,11 @@ export default function SharePage() {
 		setIsGenerating(true);
 
 		try {
+			// 确保字体和其他资源已加载
+			await document.fonts.ready;
+			// 添加短暂延迟确保渲染完成
+			await new Promise((resolve) => setTimeout(resolve, 300));
+
 			// 创建一个新的容器来精确控制导出区域
 			const node = cardRef.current;
 
@@ -50,14 +55,19 @@ export default function SharePage() {
 			node.style.width = '670px';
 			node.style.maxWidth = 'none';
 
+			// 使用3倍缩放以提高分辨率
+			const scale = 3;
+
 			const dataUrl = await domtoimage.toPng(node, {
 				quality: 1,
 				bgcolor: 'transparent',
+				height: node.offsetHeight * scale,
+				width: node.offsetWidth * scale,
 				style: {
-					// transform: `scale(${window.devicePixelRatio})`, // 匹配设备像素比
-					// transformOrigin: 'top left',
+					transform: `scale(${scale})`,
+					transformOrigin: 'top left',
 				},
-				// cacheBust: true, // 强制刷新样式
+				cacheBust: true, // 强制刷新样式
 			});
 
 			// 恢复原始样式
@@ -68,6 +78,8 @@ export default function SharePage() {
 			link.download = `MusicRoast_${Date.now()}.png`;
 			link.href = dataUrl;
 			link.click();
+
+			// 清除localStorage
 			localStorage.removeItem('music-roast-share');
 			localStorage.removeItem('aiStyle');
 		} catch (error) {
