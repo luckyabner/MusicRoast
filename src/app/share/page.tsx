@@ -90,6 +90,22 @@ export default function SharePage() {
 	};
 	return (
 		<div className="flex flex-col items-center min-h-screen justify-center">
+			<div className="my-6 flex gap-6 justify-center">
+				<Button
+					variant="outline"
+					className="rounded-lg px-5"
+					onClick={() => window.history.back()}
+				>
+					返回
+				</Button>
+				<Button
+					onClick={generateShareCard}
+					disabled={isGenerating}
+					className="rounded-lg px-5 bg-blue-600 hover:bg-blue-700"
+				>
+					{isGenerating ? '生成中...' : '保存图片'}
+				</Button>
+			</div>
 			{/* 添加额外的包装器并应用精确样式控制 */}
 			<div
 				ref={cardRef}
@@ -108,13 +124,6 @@ export default function SharePage() {
 					review={result}
 				/>
 			</div>
-			<Button
-				className="mt-4"
-				onClick={generateShareCard}
-				disabled={isGenerating}
-			>
-				{isGenerating ? '生成中...' : '保存图片'}
-			</Button>
 		</div>
 	);
 }

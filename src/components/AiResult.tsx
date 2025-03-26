@@ -51,7 +51,7 @@ export default function AiResult({ result, isLoading = false, error = '' }: AiRe
 			<CardContent>
 				{!isLoading && !result ? (
 					<div className="flex items-center justify-center py-8">
-						<p className="text-muted-foreground">请输入歌单ID后点击提交</p>
+						<p className="text-muted-foreground">导入歌单后自动解析</p>
 					</div>
 				) : isLoading && !result ? (
 					<div className="flex items-center justify-center py-8">
