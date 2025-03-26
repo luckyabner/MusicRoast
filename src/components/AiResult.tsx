@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import ReactMarkdown from 'react-markdown';
 import { ScrollArea } from './ui/scroll-area';
@@ -22,22 +22,11 @@ export default function AiResult({ result, isLoading = false, error = '' }: AiRe
 		alert('已复制到剪贴板');
 	};
 
-	// 当结果更新时自动滚动到底部
-	useEffect(() => {
-		if (result && scrollAreaRef.current) {
-			const scrollElement = scrollAreaRef.current.querySelector(
-				'[data-radix-scroll-area-viewport]'
-			);
-			if (scrollElement) {
-				scrollElement.scrollTop = scrollElement.scrollHeight;
-			}
-		}
-	}, [result]);
-
 	const handleShare = () => {
 		localStorage.setItem('music-roast-share', result);
 		router.push(`/share`);
 	};
+
 	if (error) {
 		return <div>出错了</div>;
 	}

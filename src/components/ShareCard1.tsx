@@ -11,7 +11,7 @@ export default function ShareCard1({ review, style }: CardProps) {
 	return (
 		<div
 			id="share-card"
-			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-4 relative"
+			className="rounded-2xl p-8 shadow-2xl md:max-w-2xl mx-6 relative"
 			style={{ backgroundColor: '#292524' }}
 		>
 			{/* <!-- 网站标识 --> */}
@@ -63,16 +63,17 @@ export default function ShareCard1({ review, style }: CardProps) {
 				</p>
 			</div>
 
-			{/* <!-- 网站水印 --> */}
 			<div
 				className="w-full pt-4 flex justify-between items-center"
 				style={{ borderTop: '1px solid #57534e' }}
 			>
+				{/* <!-- 网站水印 --> */}
 				<div
 					className="text-sm whitespace-nowrap"
 					style={{ color: '#fda4af' }}
 				>
-					music.luckyabner.top · 锐评您的音乐品味
+					<p>music.luckyabner.top</p>
+					<p>锐评您的音乐品味</p>
 				</div>
 
 				{/* <!-- 二维码 --> */}
