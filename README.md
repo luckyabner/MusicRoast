@@ -28,6 +28,13 @@ DeepSeek V3
 4. `pnpm build` 打包
 5. `pnpm start` 启动服务
 
+## 贡献
+
+欢迎任何人对本项目进行贡献：
+
+- 若你想添加更多有趣的 Prompt, 请在[prompts.ts](/src/lib/prompts.ts) 中添加。
+- 若有其它建议，欢迎提交 issue 或 pr。
+
 ## 相关链接
 
 - 歌单获取 - [musicapi](https://github.com/Superheroff/musicapi.git)

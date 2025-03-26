@@ -5,6 +5,7 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { PROMPTS } from '@/lib/prompts';
 
 interface InputFormProps {
 	onSubmit: (formData: FormData) => void;
@@ -57,17 +58,26 @@ export default function InputForm({ onSubmit, isLoading = false }: InputFormProp
 						<p className="text-xs text-muted-foreground">在歌单分享链接或网址中可以找到歌单ID</p>
 					</div>
 					<div className="flex flex-col space-y-1.5">
-						<Label htmlFor="attitude">AI态度</Label>
+						<Label htmlFor="aiStyle">回复风格</Label>
 						<Select
-							name="attitude"
+							name="aiStyle"
 							required
 						>
-							<SelectTrigger id="attitude">
-								<SelectValue placeholder="AI态度" />
+							<SelectTrigger id="aiStyle">
+								<SelectValue placeholder="回复风格" />
 							</SelectTrigger>
 							<SelectContent position="popper">
-								<SelectItem value="sharp">锐评</SelectItem>
-								<SelectItem value="praise">舔狗</SelectItem>
+								{Object.keys(PROMPTS).map((key) => (
+									<SelectItem
+										key={key}
+										value={key}
+										title={PROMPTS[key].description}
+									>
+										{PROMPTS[key].name}
+									</SelectItem>
+								))}
+								{/* <SelectItem value="sharp">锐评</SelectItem>
+								<SelectItem value="praise">舔狗</SelectItem> */}
 								<SelectItem
 									value="null"
 									className="text-muted-foreground"
