@@ -11,9 +11,19 @@ export default function ShareCard1({ review, style }: CardProps) {
 	return (
 		<div
 			id="share-card"
-			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-4"
+			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-4 relative"
 			style={{ backgroundColor: '#292524' }}
 		>
+			{/* <!-- 二维码 --> */}
+			<div className="absolute top-8 right-12">
+				<img
+					src="/QRCode.png"
+					alt="QR Code"
+					width={60}
+					height={60}
+				/>
+			</div>
+
 			{/* <!-- 网站标识 --> */}
 			<div className="flex items-center mb-6">
 				<div
