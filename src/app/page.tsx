@@ -153,14 +153,9 @@ export default function Home() {
 					<div className="flex flex-col justify-center items-center py-12 space-y-2">
 						<div className="flex items-center gap-3 animate-fade-in">
 							<MusicIcon className="size-11 text-purple-500" />
-							<div className="flex items-baseline">
-								<h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-									MusicRoast
-								</h1>
-								<span className="ml-2 text-xl bg-gradient-to-r from-purple-800 to-pink-600 bg-clip-text text-transparent font-medium">
-									乐怼
-								</span>
-							</div>
+							<h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+								MusicRoast
+							</h1>
 						</div>
 						<p className="text-muted-foreground font-medium text-lg max-w-xl text-center">
 							锐评您的音乐品味，让歌单更有温度

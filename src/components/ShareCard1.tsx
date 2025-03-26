@@ -14,16 +14,6 @@ export default function ShareCard1({ review, style }: CardProps) {
 			className="rounded-2xl p-8 shadow-2xl max-w-2xl mx-4 relative"
 			style={{ backgroundColor: '#292524' }}
 		>
-			{/* <!-- 二维码 --> */}
-			<div className="absolute top-8 right-12">
-				<img
-					src="/QRCode.png"
-					alt="QR Code"
-					width={60}
-					height={60}
-				/>
-			</div>
-
 			{/* <!-- 网站标识 --> */}
 			<div className="flex items-center mb-6">
 				<div
@@ -75,14 +65,32 @@ export default function ShareCard1({ review, style }: CardProps) {
 
 			{/* <!-- 网站水印 --> */}
 			<div
-				className=" pt-4"
+				className="w-full pt-4 flex justify-between items-center"
 				style={{ borderTop: '1px solid #57534e' }}
 			>
 				<div
-					className="text-sm"
+					className="text-sm whitespace-nowrap"
 					style={{ color: '#fda4af' }}
 				>
 					music.luckyabner.top · 锐评您的音乐品味
+				</div>
+
+				{/* <!-- 二维码 --> */}
+				<div className="flex items-center">
+					<span
+						className="text-sm mr-4 whitespace-nowrap"
+						style={{ color: '#fda4af' }}
+					>
+						扫码体验
+					</span>
+
+					<img
+						src="/QRCode.png"
+						alt="QR Code"
+						width={45}
+						height={45}
+						className="rounded"
+					/>
 				</div>
 			</div>
 		</div>
