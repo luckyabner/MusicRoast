@@ -78,7 +78,7 @@ export default function InputForm({ onSubmit, isLoading = false }: InputFormProp
 			<CardHeader>
 				<CardTitle>导入歌单</CardTitle>
 				<CardDescription>
-					<p className="text-red-400 inline">目前仅支持QQ音乐、网易云、酷狗、酷我</p>
+					<p className="text-red-400 inline">目前仅支持QQ音乐、网易云</p>
 				</CardDescription>
 			</CardHeader>
 			<form
@@ -112,11 +112,11 @@ export default function InputForm({ onSubmit, isLoading = false }: InputFormProp
 												? '网易云'
 												: platformInput === 'qqmusic'
 												? 'QQ音乐'
-												: platformInput === 'kugou'
-												? '酷狗'
-												: platformInput === 'kuwo'
-												? '酷我'
-												: ''}{' '}
+												: // : platformInput === 'kugou'
+												  // ? '酷狗'
+												  // : platformInput === 'kuwo'
+												  // ? '酷我'
+												  ''}{' '}
 											歌单ID: {idInput}
 										</p>
 									)}
@@ -146,8 +146,8 @@ export default function InputForm({ onSubmit, isLoading = false }: InputFormProp
 											<SelectContent position="popper">
 												<SelectItem value="wyy">网易云</SelectItem>
 												<SelectItem value="qqmusic">QQ音乐</SelectItem>
-												<SelectItem value="kugou">酷狗</SelectItem>
-												<SelectItem value="kuwo">酷我</SelectItem>
+												{/* <SelectItem value="kugou">酷狗</SelectItem>
+												<SelectItem value="kuwo">酷我</SelectItem> */}
 											</SelectContent>
 										</Select>
 										<p className="text-xs text-muted-foreground">选择您要获取歌单的音乐平台</p>
@@ -167,8 +167,8 @@ export default function InputForm({ onSubmit, isLoading = false }: InputFormProp
 										<SelectContent position="popper">
 											<SelectItem value="wyy">网易云</SelectItem>
 											<SelectItem value="qqmusic">QQ音乐</SelectItem>
-											<SelectItem value="kugou">酷狗</SelectItem>
-											<SelectItem value="kuwo">酷我</SelectItem>
+											{/* <SelectItem value="kugou">酷狗</SelectItem>
+											<SelectItem value="kuwo">酷我</SelectItem> */}
 										</SelectContent>
 									</Select>
 									<p className="text-xs text-muted-foreground">选择您要获取歌单的音乐平台</p>
