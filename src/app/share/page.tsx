@@ -16,15 +16,10 @@ export default function SharePage() {
 	const [isGenerating, setIsGenerating] = useState(false);
 	const [result, setResult] = useState('');
 	const [aiStyle, setAiStyle] = useState('');
-	const [isWechat, setIsWechat] = useState(false);
+	const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
 	const router = useRouter();
 
 	useEffect(() => {
-		// 检测是否是微信浏览器
-		const ua = navigator.userAgent.toLowerCase();
-		const isWeixinBrowser = ua.indexOf('micromessenger') !== -1;
-		setIsWechat(isWeixinBrowser);
-
 		// 尝试从localStorage获取
 		const savedResult = localStorage.getItem('music-roast-share');
 		const aiStyle = localStorage.getItem('aiStyle');
@@ -35,41 +30,22 @@ export default function SharePage() {
 		}
 		if (savedResult) {
 			setResult(savedResult);
-			// 可选：读取后清除
-			// localStorage.removeItem('music-roast-share');
 		} else {
 			setResult('数据已过期，请重新生成');
 		}
 	}, []);
 
-	// 打开外部浏览器
-	const openInBrowser = () => {
-		// 获取当前URL
-		const currentUrl = window.location.href;
-
-		// 创建一个临时的文本元素
-		const tempInput = document.createElement('input');
-		tempInput.value = currentUrl;
-		document.body.appendChild(tempInput);
-		tempInput.select();
-		document.execCommand('copy');
-		document.body.removeChild(tempInput);
-
-		alert('链接已复制，请在浏览器中打开');
-
-		// 尝试直接打开浏览器（在某些设备上可能有效）
-		window.location.href = currentUrl;
-	};
+	// 页面加载后自动生成图片
+	useEffect(() => {
+		if (result && aiStyle) {
+			generateShareCard();
+		}
+	}, [result, aiStyle]); // 当评论内容和风格加载完成后执行
 
 	const generateShareCard = async () => {
-		// 如果在微信中，提示用户
-		if (isWechat) {
-			alert('微信内无法直接下载图片，请点击"在浏览器中打开"按钮');
-			return;
-		}
-
 		if (!cardRef.current) return;
 		setIsGenerating(true);
+		setGeneratedImageUrl(null);
 
 		try {
 			// 确保字体和其他资源已加载
@@ -107,33 +83,49 @@ export default function SharePage() {
 			node.style.width = originalWidth;
 			node.style.maxWidth = originalMaxWidth;
 
-			const link = document.createElement('a');
-			link.download = `MusicRoast_${Date.now()}.png`;
-			link.href = dataUrl;
-			link.click();
+			// 所有设备都显示图片
+			setGeneratedImageUrl(dataUrl);
+
+			// const link = document.createElement('a');
+			// link.download = `MusicRoast_${Date.now()}.png`;
+			// link.href = dataUrl;
+			// link.click();
 
 			// 清除localStorage
-			localStorage.removeItem('music-roast-share');
-			localStorage.removeItem('aiStyle');
+			// localStorage.removeItem('music-roast-share');
+			// localStorage.removeItem('aiStyle');
 		} catch (error) {
 			console.error('生成失败:', error);
 		} finally {
 			setIsGenerating(false);
 		}
 	};
+
+	// 下载图片函数
+	// const downloadImage = () => {
+	// 	if (!generatedImageUrl) return;
+
+	// 	const link = document.createElement('a');
+	// 	link.download = `MusicRoast_${Date.now()}.png`;
+	// 	link.href = generatedImageUrl;
+	// 	link.click();
+
+	// 	// 清除localStorage
+	// 	localStorage.removeItem('music-roast-share');
+	// 	localStorage.removeItem('aiStyle');
+	// };
+	// 下载图片函数
+	const downloadImage = () => {
+		if (!generatedImageUrl) return;
+
+		const link = document.createElement('a');
+		link.download = `MusicRoast_${Date.now()}.png`;
+		link.href = generatedImageUrl;
+		link.click();
+	};
+
 	return (
 		<div className="flex flex-col items-center min-h-screen justify-center">
-			{isWechat && (
-				<div className="w-full p-3 mb-4 bg-yellow-50 text-yellow-800 rounded-md">
-					<p className="text-center font-medium">在微信中无法下载图片</p>
-					<Button
-						onClick={openInBrowser}
-						className="w-full mt-2 bg-yellow-500 hover:bg-yellow-600 text-white"
-					>
-						在浏览器中打开
-					</Button>
-				</div>
-			)}
 			<div className="my-6 flex gap-6 justify-center">
 				<Button
 					variant="outline"
@@ -148,32 +140,65 @@ export default function SharePage() {
 				>
 					返回
 				</Button>
-				<Button
-					onClick={generateShareCard}
-					disabled={isGenerating || isWechat}
-					className="rounded-lg px-5 bg-blue-600 hover:bg-blue-700"
+				{generatedImageUrl && (
+					<Button
+						onClick={downloadImage}
+						className="rounded-lg px-5 bg-blue-600 hover:bg-blue-700"
+					>
+						下载图片
+					</Button>
+				)}
+			</div>
+			{/* 生成图片之前显示卡片原始内容 */}
+			{!generatedImageUrl && (
+				<div
+					ref={cardRef}
+					className="inline-block mb-4"
+					style={{
+						boxShadow: 'none',
+						border: 'none',
+						margin: 0,
+						padding: 0,
+						background: 'transparent !important',
+						isolation: 'isolate',
+					}}
 				>
-					{isGenerating ? '生成中...' : '保存图片'}
-				</Button>
-			</div>
-			{/* 添加额外的包装器并应用精确样式控制 */}
-			<div
-				ref={cardRef}
-				className="inline-block" // 使元素的宽度刚好包裹内容
-				style={{
-					boxShadow: 'none',
-					border: 'none',
-					margin: 0,
-					padding: 0,
-					background: 'transparent !important',
-					isolation: 'isolate',
-				}}
-			>
-				<ShareCard1
-					style={aiStyle}
-					review={result}
-				/>
-			</div>
+					<ShareCard1
+						style={aiStyle}
+						review={result}
+					/>
+				</div>
+			)}
+
+			{/* 加载中提示 */}
+			{isGenerating && (
+				<div className="my-6 text-center">
+					<p className="text-gray-600">正在生成您的分享图片，请稍候...</p>
+				</div>
+			)}
+
+			{/* 生成后的图片显示区域 */}
+			{generatedImageUrl && (
+				<div className="mt-2 p-4 border rounded-lg bg-white shadow-md w-full max-w-xl mx-auto">
+					<p className="mb-4 text-center font-medium text-gray-700">
+						图片已生成，可长按保存或点击上方按钮下载
+					</p>
+					<div className="flex justify-center">
+						<img
+							src={generatedImageUrl}
+							alt="分享卡片"
+							className="rounded-lg w-full"
+							style={{
+								WebkitTouchCallout: 'default',
+								maxWidth: '100%',
+								height: 'auto',
+								objectFit: 'contain',
+							}}
+						/>
+					</div>
+					<p className="mt-3 text-sm text-center text-gray-500">提示：移动设备可长按图片保存</p>
+				</div>
+			)}
 		</div>
 	);
 }
