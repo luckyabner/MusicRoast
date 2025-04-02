@@ -17,13 +17,11 @@ DeepSeek V3
 
 - [x] QQ 音乐
 - [x] 网易云
-- [x] 酷狗
-- [x] 酷我
 
 ## 部署
 
 1. 安装依赖
-2. 修改 .env.examble 中的配置
+2. 按照 .env.example 中的配置进行配置
 3. `pnpm dev` 启动测试服务
 4. `pnpm build` 打包
 5. `pnpm start` 启动服务

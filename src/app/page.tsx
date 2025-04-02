@@ -5,11 +5,11 @@ import InputForm from '@/components/InputForm';
 import { useState, useEffect } from 'react';
 // import SongsList from '@/components/SongsList';
 import AiResult from '@/components/AiResult';
-import { createChatCompletion } from '@/lib/ai';
 import { toast } from 'sonner';
 import { PROMPTS } from '@/lib/prompts';
 import { MusicIcon } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { useCompletion } from '@ai-sdk/react';
 import { MODELS } from '@/lib/models';
 
 const formatSongsForAI = (songs: { title: string; author: string }[]) => {
@@ -63,9 +63,17 @@ const getItemWithExpiry = (key: string) => {
 };
 
 export default function Home() {
-	const [result, setResult] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
+
+	const { completion, isLoading, complete } = useCompletion({
+		api: '/api/chat',
+		onError: (error) => {
+			setError(error.message);
+			toast.error('请求失败', {
+				description: error.message || '获取数据失败，请稍后再试',
+			});
+		},
+	});
 
 	// 清理过期缓存
 	useEffect(() => {
@@ -83,10 +91,8 @@ export default function Home() {
 
 	const handleFormSubmit = async (formData: FormData) => {
 		setError('');
-		setResult('');
 
 		try {
-			setIsLoading(true);
 			const platform = formData.get('platform') as string | null;
 			const id = formData.get('id') as string | null;
 			const aiStyle = (formData.get('aiStyle') as keyof typeof PROMPTS) || 'sharp';
@@ -115,23 +121,13 @@ export default function Home() {
 
 			const formattedSongs = formatSongsForAI(songsList);
 
-			// 使用流式API
-			await createChatCompletion(
-				MODELS['deepseek-v3'],
-				[
-					{
-						role: 'user',
-						content: `${PROMPTS[aiStyle].content} ${formattedSongs}`,
-					},
-				],
-				{}, // 默认配置
-				(chunk) => {
-					// 逐步更新结果
-					setResult((prev) => prev + chunk);
-				}
-			);
+			const prompt = `${PROMPTS[aiStyle].content} ${formattedSongs}`;
 
-			setIsLoading(false);
+			await complete(prompt, {
+				body: {
+					model: MODELS['deepseek-v3'],
+				},
+			});
 		} catch (e) {
 			console.error('获取歌单失败：', e);
 			setError(e instanceof Error ? e.message : '获取数据失败，请稍后再试');
@@ -142,8 +138,6 @@ export default function Home() {
 					onClick: () => handleFormSubmit(formData),
 				},
 			});
-		} finally {
-			setIsLoading(false);
 		}
 	};
 	return (
@@ -170,7 +164,7 @@ export default function Home() {
 								isLoading={isLoading}
 							/>
 							<AiResult
-								result={result}
+								result={completion}
 								isLoading={isLoading}
 								error={error}
 							/>
